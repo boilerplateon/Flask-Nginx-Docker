@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  back:
+    restart: always
+    build: 
+      context: .
+      dockerfile: ./back/Dockerfile
+    expose:
+      - 5000
+    entrypoint: /app/back/entrypoint.sh
+
+  nginx: 
+    restart: always
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./app/nginx:/etc/nginx/conf.d
+    depends_on:
+      - back
